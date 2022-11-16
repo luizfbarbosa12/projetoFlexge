@@ -1,8 +1,7 @@
 import React from "react";
 import { SearchOutlined } from "@ant-design/icons";
-import { Input, Button, Space, Cascader } from "antd";
-import {DropdownLabel} from './styles'
-
+import { Input, Button, Space, Select } from "antd";
+import { DropdownLabel } from "./styles";
 
 const Filters = () => {
   return (
@@ -17,10 +16,11 @@ const Filters = () => {
       </label>
       <DropdownLabel htmlFor="">
         Company
-        <Cascader
+        <Select
           size="small"
           options={new Array(15).fill(null).map((_, index) => {
             return {
+              key: index,
               value: `Company${index}`,
               label: ` Company${index}`,
             };

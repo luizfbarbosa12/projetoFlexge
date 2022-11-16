@@ -1,7 +1,8 @@
 const router = require("express").Router();
 const Contract = require("../Models/Contracts");
+const jwt = require("jsonwebtoken")
 //create
-router.post("/", async (req, res) => {
+router.post("/", checkToken, async (req, res) => {
   const { country,
     state,
     city,
@@ -47,7 +48,7 @@ router.post("/", async (req, res) => {
 
 //read data
 
-router.get("/", async (req, res) => {
+router.get("/", checkToken, async (req, res) => {
   try {
     const contracts = await Contract.find();
     //criar logica caso não tenha nenhum contrato registrado. Colocar return no fim dos ifs
@@ -55,10 +56,27 @@ router.get("/", async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err });
   }
+
 });
 
+function checkToken(req, res, next) {
+  const authHeader = req.headers['authorization']
+
+  if(!authHeader) {
+    return res.status(401).json({message: "Acesso negado"})
+  }
+
+  try {
+    const secret = "hwikejfbw294n14r"
+    jwt.verify(authHeader, secret)
+    next()
+  } catch(err) {
+    res.status(400).json({message: "Token inválido"})
+  }
+}
+
 //update data (PUT ou PATCH)
-router.patch("/:id", async (req, res) => {
+router.patch("/:id", checkToken, async (req, res) => {
   const id = req.params.id;
 
   const { country,
@@ -105,7 +123,7 @@ router.patch("/:id", async (req, res) => {
 
 //delete
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", checkToken, async (req, res) => {
   const id = req.params.id;
   const person = await Contract.findOne({ _id: id });
   if (!person) {

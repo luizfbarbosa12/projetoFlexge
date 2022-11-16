@@ -90,7 +90,7 @@ app.post("/auth/login", async (req, res) => {
         secret
       );
   
-      res.status(200).json({ msg: "Autenticação realizada com sucesso!", token });
+      res.status(200).json({ msg: "Autenticação realizada com sucesso!", token, user });
     } catch (error) {
       res.status(500).json({ msg: error });
     }
@@ -98,7 +98,7 @@ app.post("/auth/login", async (req, res) => {
 
 //Entity routes
 const contractRoutes = require("./routes/contractRoutes");
-app.use("/new-contract", contractRoutes);
+app.use("/contracts", contractRoutes);
 
 //porta
 mongoose

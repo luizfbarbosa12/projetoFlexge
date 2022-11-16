@@ -1,29 +1,30 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Button, Form, Input } from "antd";
 import { Layout } from "antd";
 import { LoginContainer, LogoFlexge } from "./styles";
-import logo from '../../assets/logo-flexge.png'
+import logo from "../../assets/logo-flexge.png";
 import { useNavigate } from "react-router-dom";
 import useForm from "../../hooks/useForm";
-import axios from 'axios'
+import axios from "axios";
+import { UserContext } from "../../contexts/userContext";
 const { Header } = Layout;
 
-
 const LoginPage = () => {
-const navigate = useNavigate()
-const [form, onChange, clear] = useForm({ email: "", password: "" });
+  const navigate = useNavigate();
+  const { setCurrentUser } = useContext(UserContext);
+  const [form, onChange] = useForm({ email: "", password: "" });
 
   const handleClickLogin = () => {
-    axios.post('http://localhost:3001/auth/login', form).then((response) => {
-      console.log(response.data.token)
-      localStorage.setItem("token", response.data.token)
-      navigate("/contracts")
-    }).catch(err => console.log(err))
-    
-    
-  }
+    axios
+      .post("http://localhost:3001/auth/login", form)
+      .then((response) => {
+        setCurrentUser(response.data.user.name);
+        localStorage.setItem("token", response.data.token);
+        navigate("/contracts");
+      })
+      .catch((err) => console.log(err));
+  };
 
-  
   return (
     <Layout>
       <Header>
@@ -53,7 +54,7 @@ const [form, onChange, clear] = useForm({ email: "", password: "" });
               },
             ]}
           >
-            <Input name="email" value={form.email} onChange={onChange}/>
+            <Input name="email" value={form.email} onChange={onChange} />
           </Form.Item>
 
           <Form.Item
@@ -66,7 +67,11 @@ const [form, onChange, clear] = useForm({ email: "", password: "" });
               },
             ]}
           >
-            <Input.Password name="password" value={form.password} onChange={onChange}/>
+            <Input.Password
+              name="password"
+              value={form.password}
+              onChange={onChange}
+            />
           </Form.Item>
           <Form.Item
             wrapperCol={{

@@ -2,7 +2,7 @@ import { Content } from "antd/lib/layout/layout";
 import {
   Divider,
   Typography,
-  Cascader,
+  Select,
   Form,
   Input,
   Button,
@@ -25,7 +25,7 @@ import HeaderMenu from "../../components/HeaderMenu/HeaderMenu";
 import { HomeOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import {useProtectedPage} from '../../hooks/useProtectedPage'
+import { useProtectedPage } from "../../hooks/useProtectedPage";
 const { Header } = Layout;
 const { Title } = Typography;
 
@@ -34,12 +34,12 @@ const NewContractField = styled.div`
   justify-content: space-between;
 `;
 const CreateContractsPage = () => {
-  useProtectedPage()
-const navigate = useNavigate()
+  useProtectedPage();
+  const navigate = useNavigate();
 
   const handleClickGoBack = () => {
-    navigate("/contracts")
-  }
+    navigate("/contracts");
+  };
   const products = [
     "Licenças por pacote",
     "Licenças extras",
@@ -101,7 +101,7 @@ const navigate = useNavigate()
   ];
   const data = [
     {
-      key: "1",
+      key: "0",
       productName: "Licenças por pacote",
       amount: 100,
       finalUnitPrice: "R$ 28,00",
@@ -131,7 +131,7 @@ const navigate = useNavigate()
       ),
     },
     {
-      key: "1",
+      key: "2",
       productName: "Placement test comercial",
       amount: 100,
       finalUnitPrice: "R$ 10,00",
@@ -146,7 +146,7 @@ const navigate = useNavigate()
       ),
     },
     {
-      key: "1",
+      key: "3",
       productName: "Assessoria de implantação",
       amount: 100,
       finalUnitPrice: "R$ 2000,00",
@@ -161,7 +161,7 @@ const navigate = useNavigate()
       ),
     },
     {
-      key: "1",
+      key: "4",
       productName: "White label (full, academic, + parents)",
       amount: 100,
       finalUnitPrice: "R$ 3000,00",
@@ -176,7 +176,7 @@ const navigate = useNavigate()
       ),
     },
     {
-      key: "1",
+      key: "5",
       productName: "Taxa de atualização do sistema (white label)",
       amount: 100,
       finalUnitPrice: "R$ 50,00",
@@ -214,7 +214,6 @@ const navigate = useNavigate()
             </NewContractField>
           </div>
           <Divider />
-
           <Title level={5}>Create Contract</Title>
           <CreateContractForm />
           <Title level={5}>Contract's products</Title>
@@ -226,15 +225,15 @@ const navigate = useNavigate()
                 name="product"
                 rules={[{ required: true, message: "Please select a country" }]}
               >
-                <Cascader
-                  size="small"
-                  options={products.map((product) => {
+                <Select
+                  placeholder="Select a product"
+                  options={products.map((product, index) => {
                     return {
                       value: product,
                       label: product,
-                    };
+                      key: index
+                    }
                   })}
-                  placeholder="Please select"
                 />
               </FormFilter>
               <FormFilter label="Amount" name="amount">

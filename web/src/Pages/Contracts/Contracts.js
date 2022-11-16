@@ -19,6 +19,7 @@ const NewContractField = styled.div`
   display: flex;
   justify-content: space-between;
 `;
+
 const Contracts = () => {
   useProtectedPage()
   const [contracts, setContracts] = useState();
@@ -29,8 +30,9 @@ const Contracts = () => {
   };
   
   useEffect(() => {
+    const headers = { headers: { authorization: window.localStorage.getItem("token") } }
     axios
-      .get("http://localhost:3001/new-contract")
+      .get("http://localhost:3001/contracts", headers)
       .then((response) => {
         setContracts(response.data);
       })
@@ -54,10 +56,6 @@ const Contracts = () => {
       dataIndex: "company",
     },
   ];
-  <>
-    <EditOutlined style={{ margin: "0 8px" }} />
-    <DeleteOutlined />
-  </>;
   return (
     <Layout>
       <Header>

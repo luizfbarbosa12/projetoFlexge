@@ -1,70 +1,96 @@
-# Getting Started with Create React App
+# Challenge Flexge - Pleno
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+#### Backend
 
-## Available Scripts
+## Para iniciar localmente:
 
-In the project directory, you can run:
+Primeiro execute o seguinte comando: 
 
-### `npm start`
+`npm install` 
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Para instalar as dependências do backend. Para executar o programa, utilize: 
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+`npm run start`
 
-### `npm test`
+O backend está sendo executado em http://localhost:3001. 
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Os endpoints para contratos são iguais, mudando apenas o método. Utilizando a URL `http://localhost:3001/contracts` é possivel:
 
-### `npm run build`
+`GET`: Buscar todos os contratos registrados no banco.
+`POST`: Criar um novo contrato passando um body como parâmetro body. Dentro de /Models existe um modelo de contrato que tem o seguinte formato: 
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```
+country: String,
+    state: String,
+    city: String,
+    documentNumber: Number,
+    socialReason: String,
+    address: String,
+    district: String,
+    number: Number,
+    zipCode: Number,
+    email: String,
+    phone: String,
+    contractStarts: Date,
+    contractEnds: Date,
+    dueDay: Number,
+    company: String
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+`PATCH`: Aqui é possível editar um contrato através do id. A URL é: `http://localhost:3001/contracts/:id`
+`DELETE`: Aqui é possível deletar um contrato através do id. A URL é `http://localhost:3001/contracts/:id`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Todas as rotas são protegidas, sendo necessário passar um token no headers.
 
-### `npm run eject`
+## Para criar um usuário e fazer login: 
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+`POST`: Para registrar um novo usuário `http://localhost:3001/auth/register` passando nome, email e senha no body.
+`POST`: Para fazer login `http://localhost:3001/auth/login` passando email e senha no body.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+As rotas de registro de usuário e login são abertas. Da requisição de login é retornado um token JWT.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Frontend: 
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Para iniciar o Frontend execute o seguinte comando para instalar as dependências
 
-## Learn More
+```
+npm install
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+E no diretório do projeto: 
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```
+npm start
+```
 
-### Code Splitting
+Abrir [http://localhost:3000](http://localhost:3000) para visualizar en el browser.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Comentarios
 
-### Analyzing the Bundle Size
+Backend:
+Executar este projeto foi uma fonte de aprendizado absurda! Consegui pela primeira vez implementar um CRUD completo e fazer rotas de autenticação de usuário com registro e login. Não tenho conhecimento aprofundado de boas práticas em backend, então um dos meus maiores desafios foi a organização das informações. Tentei ao máximo no tempo disponível pesquisar maneiras de deixar o código limpo e organizado. Acredito que consegui construir todas as rotas necessárias para a aplicação existir sem problemas.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Se tivesse mais tempo, trabalharia na paginação na API, não consegui chegar até aqui.
 
-### Making a Progressive Web App
+Frontend: 
+Pontos que consegui alcançar no frontend: 
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+- Criar página de login funcional
+- Utilizar react context para armazenar as informações do usuário
+- Criar rotas com react-router
+- Fazer somente a página de login ser pública através do hook customizado useProtectedPage
+- Fazer controle de formulários usando o hook customizado useForm( ). Cuja construção consiste no uso de um useState()
+- Componentização da aplicação
 
-### Advanced Configuration
+Acredito que o maior desafio foi encontrar um caso de uso para o redux e redux-saga, apenas hoje consegui compreender onde poderia ser útil, mas não tenho mais tempo para aplicar, infelizmente. 
+Então se eu tivesse mais tempo aplicaria as seguintes funcionalidades: 
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+- Implementar gerenciamento de estado complexo com redux para fazer o controle do formulário de criação de contratos
+- Implementar o redux-saga para fazer a criação de um novo contrato na API utilizando a rota já criada.
+- Implementar filtros da página de visualização de contratos
 
-### Deployment
+Obrigado! 
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
 
-### `npm run build` fails to minify
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+##### By [Luiz Barbosa](https://github.com/luizfbarbosa12)
