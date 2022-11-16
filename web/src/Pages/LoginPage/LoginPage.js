@@ -4,14 +4,25 @@ import { Layout } from "antd";
 import { LoginContainer, LogoFlexge } from "./styles";
 import logo from '../../assets/logo-flexge.png'
 import { useNavigate } from "react-router-dom";
+import useForm from "../../hooks/useForm";
+import axios from 'axios'
 const { Header } = Layout;
+
 
 const LoginPage = () => {
 const navigate = useNavigate()
+const [form, onChange, clear] = useForm({ email: "", password: "" });
 
   const handleClickLogin = () => {
-    navigate("/contracts")
+    axios.post('http://localhost:3001/auth/login', form).then((response) => {
+      console.log(response.data.token)
+      localStorage.setItem("token", response.data.token)
+      navigate("/contracts")
+    }).catch(err => console.log(err))
+    
+    
   }
+
   
   return (
     <Layout>
@@ -33,16 +44,16 @@ const navigate = useNavigate()
           autoComplete="off"
         >
           <Form.Item
-            label="Username"
-            name="username"
+            label="Email"
+            name="email"
             rules={[
               {
                 required: true,
-                message: "Please input your username!",
+                message: "Please insert your email!",
               },
             ]}
           >
-            <Input />
+            <Input name="email" value={form.email} onChange={onChange}/>
           </Form.Item>
 
           <Form.Item
@@ -55,7 +66,7 @@ const navigate = useNavigate()
               },
             ]}
           >
-            <Input.Password />
+            <Input.Password name="password" value={form.password} onChange={onChange}/>
           </Form.Item>
           <Form.Item
             wrapperCol={{

@@ -11,6 +11,7 @@ import {
 } from "@ant-design/icons";
 import Filters from "../../components/Filters/Filters/Filters";
 import { useNavigate } from "react-router-dom";
+import { useProtectedPage } from "../../hooks/useProtectedPage";
 const { Title } = Typography;
 const { Content, Header } = Layout;
 
@@ -19,6 +20,7 @@ const NewContractField = styled.div`
   justify-content: space-between;
 `;
 const Contracts = () => {
+  useProtectedPage()
   const [contracts, setContracts] = useState();
   const navigate = useNavigate();
 

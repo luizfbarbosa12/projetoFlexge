@@ -25,6 +25,7 @@ import HeaderMenu from "../../components/HeaderMenu/HeaderMenu";
 import { HomeOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import {useProtectedPage} from '../../hooks/useProtectedPage'
 const { Header } = Layout;
 const { Title } = Typography;
 
@@ -33,6 +34,7 @@ const NewContractField = styled.div`
   justify-content: space-between;
 `;
 const CreateContractsPage = () => {
+  useProtectedPage()
 const navigate = useNavigate()
 
   const handleClickGoBack = () => {
