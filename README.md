@@ -63,7 +63,7 @@ E no diretório do projeto:
 npm start
 ```
 
-Abrir [http://localhost:3000](http://localhost:3000) para visualizar en el browser.
+Abrir [http://localhost:3000](http://localhost:3000) para visualizar no browser.
 
 ## Comentarios
 
